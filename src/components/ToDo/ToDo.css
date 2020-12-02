@@ -1,0 +1,5 @@
+.completedTask{
+    background: greenyellow;
+    border-radius: 5px;
+    /* text-decoration-line: line-through; */
+}
