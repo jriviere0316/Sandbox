@@ -39,15 +39,35 @@ router.post('/', rejectUnauthenticated, (req, res, next) => {
     })
 });
 
-router.put('/:id', (req, res) => {
-    console.log('in edit task router with:', req.body);
+// router.put('/:id', (req, res) => {
+//     console.log('in edit task router with:', req.body);
+//     const query = `
+//     UPDATE "tasks"
+//     SET 
+//     "isComplete" = $1,
+//     "taskName" = $2
+//     WHERE "id" = $3
+//     ;`;
+//     pool.query(query, [req.body.isCompleteUpdate, req.body.task.taskName, req.body.task.id])
+//     .then(() => 
+//     res.sendStatus(200))
+//     .catch(error => {
+//       console.log('ERROR:', error);
+//     })
+// });
+
+//url: `/api/tasks/updatename${action.payload.taskId}`,
+
+router.put('/updatename', (req, res) => {
+    console.log('in edit task NAME router with:', req.body);
     const query = `
     UPDATE "tasks"
     SET 
-    "isComplete" =$1
-    WHERE "id" = $2
+    "isComplete" = $1,
+    "taskName" = $2
+    WHERE "id" = $3
     ;`;
-    pool.query(query, [req.body.isCompleteUpdate, req.body.taskId])
+    pool.query(query, [req.body.isComplete, req.body.taskName, req.body.id])
     .then(() => 
     res.sendStatus(200))
     .catch(error => {

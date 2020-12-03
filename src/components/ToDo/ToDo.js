@@ -59,20 +59,40 @@ function ToDo(props) {
     const toggleCompletion = (task) => {
         const taskId = task.id 
         const isCompleteUpdate = !task.isComplete
+        console.log('task is currently',task);
+        const taskUpdate = {id: task.id, taskName: task.taskName, isComplete: isCompleteUpdate}
+        console.log('taskupdate is ', taskUpdate);
         dispatch({
-            type: 'UPDATE_TASK_STATUS',
-            payload: {taskId, isCompleteUpdate}
+            type: 'UPDATE_TASK_NAME',
+            payload: taskUpdate
         })
+                //was: taskId, isCompleteUpdate
     }
 
-    const updateTaskDescription = (task) => {
-        Swal.fire({
-            icon: 'success',
-            title: 'Updated!',
-            showConfirmButton: false,
-            timer: 1500
-        })
-        console.log('in updateTaskDescription with task id:', task);
+    const updateTaskDescription = (event, task) => {
+        console.log('in updateTaskDescription with', event.target.value, '+', task);
+        // var updatePayload = event.target.value, task
+        // console.log(updatePayload);
+
+        const taskIndex = state.taskMap.findIndex(taskMapTask => taskMapTask.id === task.id )
+        console.log('updateTaskDescription taskIndex is', taskIndex);
+
+        const foundTask = state.taskMap[taskIndex]
+        console.log('foundTask is:', foundTask);
+
+        dispatch({
+            type: 'UPDATE_TASK_NAME',
+            payload: foundTask
+        });
+
+
+        // Swal.fire({
+        //     icon: 'success',
+            
+        //     title: 'Updated!', ,
+        //     showConfirmButton: false,
+        //     timer: 1500
+        // })
     }
 
 
@@ -88,35 +108,55 @@ function ToDo(props) {
 
     //??
     useEffect( () => {
+        console.log('in useEffect');
         dispatch({type: 'GET_TASKS'}) 
-        console.log('state is',state)   
-        console.log('tasks are', taskMap);      
+        // console.log('state is',state)   
+        // console.log('tasks are', taskMap); 
+        checkTaskMap();
+     
     },[state])
 
     const [state, setState] = React.useState({
-        checkedA: false,
-        // taskMap: taskMap
+        taskMap: ''
     });
 
     const taskMap = useSelector((state)=>{
     return state.tasks; 
     });
     
+    const checkTaskMap = ()=>{
+        console.log('state is', state);
+        console.log('in checkTaskMap with', taskMap);
+        setState({
+            taskMap: taskMap
+        });
 
-    const [reduxTasks, setReduxTasks] = React.useState({
-        tasks: taskMap
-    })
-    
-    console.log('state',state);
-    console.log('taskMap is', taskMap);
+    };
+        
+    console.log('* state.taskMap is', state.taskMap);
+    console.log('* taskMap is', taskMap);
 
-    console.log('reduxTasks is', reduxTasks);
+    if (state.taskMap.length === 0 && taskMap.length >= 1){
+        console.log('conditions met');
+        checkTaskMap();
+    }
     
-    const handleChange = (event, propertyName) => {
-		setState({
-			...state,
-			[propertyName]: event.target.value,
-		});
+    const handleChange = (event, task) => {
+        console.log(`in handlechange with: '`, event.target.value,`' +`, task);
+        const tasksToSearch = state.taskMap
+        console.log('tasksToSearch is:', tasksToSearch);
+
+        const taskIndex = state.taskMap.findIndex(taskMapTask => taskMapTask.id === task.id )
+        console.log('taskIndex is', taskIndex);
+        let newArray = [...state.taskMap]
+        newArray[taskIndex] = {...newArray[taskIndex], taskName: event.target.value}
+        console.log('newArray is gonna be', newArray);
+        setState({
+            //...state,
+            taskMap: newArray
+			// [propertyName]: event.target.value,
+        });
+        console.log('state is now:', state);
 	};
 
     
@@ -170,7 +210,7 @@ function ToDo(props) {
 
                         <td>
                             <Button 
-                            onClick={()=>updateTaskDescription(task.id)}
+                            onClick={(event)=>updateTaskDescription(event,task)}
                             name="checkedA"
                             variant="contained" 
                             color="primary">
@@ -209,5 +249,7 @@ function ToDo(props) {
     </div>
   );
 }
+
+
 
 export default connect(mapStoreToProps)(ToDo);

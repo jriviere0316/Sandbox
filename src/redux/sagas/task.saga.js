@@ -44,9 +44,23 @@ function* deleteTask(action){
 
 function* updateTaskStatus(action){
     console.log('in updateTaskStatus with', action.payload);
+    const urlid = action.payload.task.id
+    console.log('urlid is', urlid);
     yield axios ({
         method: 'PUT',
-        url: `/api/tasks/${action.payload.taskId}`,
+        url: `/api/tasks/${urlid}`,
+        data: action.payload
+    })
+    yield put({
+    type: 'GET_TASKS'
+    })
+}
+
+function* updateTaskName(action){
+    console.log('in updateTaskName with', action.payload);
+    yield axios ({
+        method: 'PUT',
+        url: `/api/tasks/updatename`,
         data: action.payload
     })
     yield put({
@@ -59,6 +73,9 @@ function* registrationSaga() {
   yield takeLatest('GET_TASKS', getTasks);
   yield takeLatest('DELETE_TASK', deleteTask);
   yield takeLatest('UPDATE_TASK_STATUS', updateTaskStatus);
+
+  yield takeLatest('UPDATE_TASK_NAME', updateTaskName);
+
 }
 
 export default registrationSaga;
