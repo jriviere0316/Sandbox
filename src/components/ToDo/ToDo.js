@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import mapStoreToProps from '../../redux/mapStoreToProps';
-import { Button, Typography, TextField } from '@material-ui/core';
+import { Button, Box, Typography, TextField } from '@material-ui/core';
+
 import Swal from 'sweetalert2'
 import './ToDo.css';
 // Basic functional component structure for React with default state
@@ -60,60 +61,36 @@ function ToDo(props) {
         const taskId = task.id 
         const isCompleteUpdate = !task.isComplete
         console.log('task is currently',task);
-        const taskUpdate = {id: task.id, taskName: task.taskName, isComplete: isCompleteUpdate}
+        const taskUpdate = {id: taskId, taskName: task.taskName, isComplete: isCompleteUpdate}
         console.log('taskupdate is ', taskUpdate);
         dispatch({
-            type: 'UPDATE_TASK_NAME',
+            type: 'UPDATE_TASK',
             payload: taskUpdate
         })
-                //was: taskId, isCompleteUpdate
     }
-
     const updateTaskDescription = (event, task) => {
         console.log('in updateTaskDescription with', event.target.value, '+', task);
-        // var updatePayload = event.target.value, task
-        // console.log(updatePayload);
-
         const taskIndex = state.taskMap.findIndex(taskMapTask => taskMapTask.id === task.id )
         console.log('updateTaskDescription taskIndex is', taskIndex);
-
         const foundTask = state.taskMap[taskIndex]
         console.log('foundTask is:', foundTask);
-
         dispatch({
-            type: 'UPDATE_TASK_NAME',
+            type: 'UPDATE_TASK',
             payload: foundTask
         });
 
-
-        // Swal.fire({
-        //     icon: 'success',
-            
-        //     title: 'Updated!', ,
-        //     showConfirmButton: false,
-        //     timer: 1500
-        // })
+        Swal.fire({
+            icon: 'success',
+            title: 'Updated!', 
+            showConfirmButton: false,
+            timer: 1300
+        })
     }
-
-
-
-    //??
-    //GET_TASKS 
-    const mapDispatchToProps = dispatch => {
-        return {
-          // dispatching plain actions
-          getTasks: () => dispatch({ type: 'GET_TASKS' }),
-        }
-    }
-
-    //??
+    //'STATE' STUFF
     useEffect( () => {
         console.log('in useEffect');
         dispatch({type: 'GET_TASKS'}) 
-        // console.log('state is',state)   
-        // console.log('tasks are', taskMap); 
         checkTaskMap();
-     
     },[state])
 
     const [state, setState] = React.useState({
@@ -132,10 +109,7 @@ function ToDo(props) {
         });
 
     };
-        
-    console.log('* state.taskMap is', state.taskMap);
-    console.log('* taskMap is', taskMap);
-
+    
     if (state.taskMap.length === 0 && taskMap.length >= 1){
         console.log('conditions met');
         checkTaskMap();
@@ -145,7 +119,6 @@ function ToDo(props) {
         console.log(`in handlechange with: '`, event.target.value,`' +`, task);
         const tasksToSearch = state.taskMap
         console.log('tasksToSearch is:', tasksToSearch);
-
         const taskIndex = state.taskMap.findIndex(taskMapTask => taskMapTask.id === task.id )
         console.log('taskIndex is', taskIndex);
         let newArray = [...state.taskMap]
@@ -159,13 +132,24 @@ function ToDo(props) {
         console.log('state is now:', state);
 	};
 
-    
+    // console.log('* state.taskMap is', state.taskMap);
+    // console.log('* taskMap is', taskMap);
   return (
     <div>
-        <Typography variant="h3" gutterBottom>{heading}</Typography>
+        <Typography align='center' variant="h3" gutterBottom>{heading}</Typography>
+        {/* <hr/> */}
+        <Box textAlign='center'>
+            <Button 
+            className="centeredBtn"
+            onClick={createTask}
+            variant="contained" 
+            color="primary">
+            Create Task
+            </Button>
+        </Box>
         <hr/>
         
-        <table>
+        <table className="centered">
             <thead>
                 <tr>
                     <td>
@@ -200,11 +184,11 @@ function ToDo(props) {
 
                         {task.isComplete === true ?
                         <td >
-                            <TextField onChange={(event)=>handleChange(event, task)} className="completedTask" key={task.id} label={task.taskName} variant="outlined" />
+                            <TextField style ={{width: 400}} onChange={(event)=>handleChange(event, task)} className="completedTask" key={task.id} label={task.taskName} variant="outlined" />
                         </td>
                         :
                         <td >
-                            <TextField onChange={(event)=>handleChange(event, task)} key={task.id} label={task.taskName} variant="outlined" />
+                            <TextField style ={{width: 400}} onChange={(event)=>handleChange(event, task)} key={task.id} label={task.taskName} variant="outlined" />
                         </td>
                         }
 
@@ -213,7 +197,8 @@ function ToDo(props) {
                             onClick={(event)=>updateTaskDescription(event,task)}
                             name="checkedA"
                             variant="contained" 
-                            color="primary">
+                            color="primary"
+                            >
                             Save
                             </Button>
                         </td>
@@ -239,17 +224,8 @@ function ToDo(props) {
                 )}
             </tbody>
         </table>
-
-        <Button 
-        onClick={createTask}
-        variant="contained" 
-        color="primary">
-        Create Task
-        </Button>
+        
     </div>
   );
 }
-
-
-
 export default connect(mapStoreToProps)(ToDo);
