@@ -24,13 +24,22 @@ class Calculator extends Component {
     const updatedEquation = this.state.equation + event.target.value 
     console.log(updatedEquation);
 
-    this.setState({
-        ...this.state,
-        equation: updatedEquation
-    });
-};
+        this.setState({
+            ...this.state,
+            equation: updatedEquation
+        });
+    };
+
+    sendEquation=()=>{
+        console.log('sending equation:', this.state.equation);
+        this.props.dispatch({
+            type: 'SEND_EQUATION',
+            payload: this.state.equation
+        })
+
+    }
+
   render() {
-      console.log(3*3+2*92*2.13);
     return (
       <div>
         <h2 className="centeredText">Server Side Party Calculator</h2>
@@ -38,7 +47,7 @@ class Calculator extends Component {
             <br/>
             <div className="calcScreen">
 
-                <input className="centeredText, calcText" value={this.state.equation}></input>
+                <input className="centeredText, calcText" defaultValue={this.state.equation}></input>
             
             </div>
 
@@ -100,7 +109,7 @@ class Calculator extends Component {
                             <button className="calcBtn" value="." onClick={(value)=>this.handlechange(value)}> . </button>
                         </td>
                         <td>
-                        <button className="equalsbtn" className="calcBtn" value="=" onClick={(value)=>this.handlechange(value)}> = </button>
+                        <button className="equalsbtn" className="calcBtn" value="=" onClick={this.sendEquation}> = </button>
                         </td>
                         <td>
                         <button className="calcBtn" value="/" onClick={(value)=>this.handlechange(value)}> ÷ </button>
