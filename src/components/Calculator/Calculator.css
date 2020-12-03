@@ -1,0 +1,77 @@
+.calcDiv{
+    display: block;
+    margin: auto;
+    border-radius: 10px;
+    background-color: rgb(40, 40, 40);
+    height: 350px;
+    width: 350px;
+    box-shadow: 0 0 0pt 2pt black;
+}
+
+.calcScreen{
+    display: block;
+    margin: auto;
+    height: 45px;
+    width: 300px;
+}
+
+.calcText{
+    background-color: rgb(8, 186, 8);
+    box-shadow: 0 0 4pt 1pt rgb(8, 186, 8);
+    font-family: 'Orbitron', sans-serif;
+    font-size: x-large;
+    text-align: center;
+    height: 45px;
+    width: 300px;
+}
+
+.centeredText{
+    text-align: center;
+    padding-right: 10px;
+}
+
+.calcBtn{
+    font-family: 'Orbitron', sans-serif;
+    font-size: x-large;
+    background: rgb(138, 130, 132);
+    border-radius: 5px;
+    width: 60px;
+
+}
+button:hover{
+    background: chartreuse;
+    box-shadow: 0 0 15pt 1pt chartreuse;
+
+}
+.equalsbtn{
+    background:rgb(210, 151, 24);
+}   
+.equalsbtn:hover{
+    background:rgb(255, 185, 35);
+    box-shadow: 0 0 15pt 1pt rgb(255, 185, 35);
+}
+
+.clearbtn{
+    font-family: 'Orbitron', sans-serif;
+    font-size: x-large;
+    background: rgb(216, 43, 78);
+    border-radius: 5px;
+    width: 60px;
+}
+.clearbtn:hover{
+    background: rgb(255, 37, 81);
+    box-shadow: 0 0 15pt 1pt rgb(255, 37, 81);
+}
+
+.party{
+    font-family: 'Orbitron', sans-serif;
+    /* font-size: x-small; */
+    background: rgb(216, 43, 210);
+    border-radius: 5px;
+    width: 60px; 
+}
+
+.party:hover{
+    background: rgb(255, 51, 248);
+    box-shadow: 0 0 15pt 1pt rgb(255, 51, 248);
+}
