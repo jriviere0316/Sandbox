@@ -12,35 +12,46 @@
 }
 
 .partyCalcBackground{
-    position: absolute;
-    z-index: -1;
+    /* position: absolute; */
+    /* z-index: -1; */
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    height: 500px;
+    margin-top: -40px;
+    height: 600px;
     width: 100%;
     border-radius: 50%;
-    animation: pulse .5s infinite;
+    animation: pulse 2s infinite;
     background-color:rgb(255, 51, 248);
     box-shadow: 0 0 15pt 1pt rgb(255, 51, 248);
-
-
 }
 
 
 @keyframes pulse {
 	0% {
 		transform: scale(0.05);
-		box-shadow: 0 0 0 0 rgba(255, 6, 234, 0.7);
+		box-shadow: 0 0 15pt 15pt rgba(255, 6, 234, 0.975);
 	}
+	25% {
+        transform: scale(1);
+        border-radius: 10%;
+        transform: rotate(45deg);
 
-	/* 50% {
-		transform: scale(1);
-		box-shadow: 0 0 0 50px rgba(218, 0, 0, 0);
-	} */
-
-	100% {
-		transform: scale(1);
 		box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+    }
+    50% {
+		transform: scale(0.05);
+		box-shadow: 0 0 15pt 15pt rgba(255, 6, 234, 0.975);
+	}
+	75% {
+        transform: scale(1);
+        border-radius: 10%;
+        transform: rotate(-45deg);
+
+		box-shadow: 0 0 0 50px rgba(0, 0, 0, 0);
+    }100% {
+		transform: scale(0.05);
+		box-shadow: 0 0 15pt 15pt rgba(255, 6, 234, 0.975);
 	}
 }
 
@@ -74,6 +85,8 @@
     text-align: center;
     height: 45px;
     width: 300px;
+    margin-left: -5px;
+
 }
 
 .centeredText{
@@ -87,9 +100,8 @@
     background: rgb(138, 130, 132);
     border-radius: 5px;
     width: 60px;
-
 }
-button:hover{
+.calcBtn:hover{
     background: chartreuse;
     box-shadow: 0 0 15pt 1pt chartreuse;
 
