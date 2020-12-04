@@ -10,13 +10,28 @@ function* sendEquation(action) {
     url: '/api/calculator',
     data: action
   });
-//   yield put ({
-//     type: 'GET_EQUATIONS'
-//   })
+  yield put ({
+    type: 'GET_EQUATIONS'
+  })
 }
+
+
+function* getEquations(action) {
+    console.log("in getEquations");
+    const response = yield axios({
+        method: "GET",
+        url: "/api/calculator",
+    });
+
+    //console.log("back from GET equations with:", response.data);
+    yield put({ type: "SET_EQUATIONS", payload: response.data });
+}
+
+
 
 function* userSaga() {
   yield takeLatest('SEND_EQUATION', sendEquation);
+  yield takeLatest('GET_EQUATIONS', getEquations);
 }
 
 export default userSaga;

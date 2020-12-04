@@ -8,47 +8,132 @@ import './Calculator.css';
 // the component name TemplateClass with the name for the new
 // component.
 class Calculator extends Component {
-  state = {
-    equation: ''
-  };
+    state = {
+        equation: '',
+        recentEquation: ''
+    };
+
+    componentDidMount(){
+        this.props.dispatch({
+            type: 'GET_EQUATIONS'
+        })
+        var element = document.getElementById("calcInput");
+        element.classList.add("hiddenInput");
+        
+        // const audioEl = document.getElementsByClassName("audio-element")[0]
+        // audioEl.play()
+    }
 
 
-  clearEquation = ()=>{
-    this.setState({
-        equation: ''
-    });
-  }
+    clearEquation = ()=>{
+        this.setState({
+            ...this.state,
+            equation: '',
+            recentEquation: ''
+        });
+        //add hide class
+        var element = document.getElementById("calcInput");
+        element.classList.add("hiddenInput");
+    }
   
-  handlechange = (event) => {
-    console.log('in handlechange with', event.target.value);
+    handlechange = (event) => {
+    // console.log('in handlechange with', event.target.value);
     const updatedEquation = this.state.equation + event.target.value 
-    console.log(updatedEquation);
-
+    // console.log(updatedEquation);
         this.setState({
             ...this.state,
             equation: updatedEquation
         });
+        var element = document.getElementById("calcInput");
+        element.classList.remove("hiddenInput");
     };
 
     sendEquation=()=>{
-        console.log('sending equation:', this.state.equation);
+        // console.log('sending equation:', this.state.equation);
         this.props.dispatch({
             type: 'SEND_EQUATION',
             payload: this.state.equation
         })
-
+        this.setState({
+            ...this.state,
+            equation: ''
+        })
     }
 
-  render() {
+    setPreviousEquation=(event)=>{
+        // console.log('in setPreviousEquation', event);
+        if(event === this.state.recentEquation){
+            // console.log('event & this.state.recentEquation MATCH:',event, this.state.recentEquation, ', stopping');
+            return
+        }else{
+            // console.log('setting state');
+            this.setState({
+                recentEquation: event
+            })
+        }
+    }
+
+    partyMode=()=>{
+        console.log('in party mode');
+        var element = document.getElementById("calcBack");
+        element.classList.toggle("partyCalcBackground");
+
+        const audioEl = document.getElementsByClassName("audio-element")[0]
+
+
+        if(audioEl.paused){
+            audioEl.play();
+        }else {
+            audioEl.pause();
+        }
+
+        
+    }
+
+
+    
+    render() {
+    var previousEquation = this.props.store.equations[0];
+    // if(this.state.equation === '' && this.state.recentEquation === ''){
+    //     console.log(`both equation and recent equation are ''`);
+    // }
+    if(previousEquation !== undefined){
+        // console.log('previousEquation', previousEquation.fullEquation);
+        var fullPrevious = previousEquation.fullEquation;
+        // console.log('fullPrevious', fullPrevious);
+        // if (this.state.previousEquation.length > 0){
+        if (previousEquation.fullEquation !== this.state.previousEquation){
+            // console.log('does notmatch');
+            this.setPreviousEquation(previousEquation.fullEquation)
+        }else{
+            // console.log('MATCH! stopping');
+            return
+        }
+    }
+    console.log('state is', this.state);
+    console.log('fullPrevious', fullPrevious);
+    
     return (
-      <div>
+      <div id="mainCalcDiv" >
+            {/* <audio id="myAudio" source="./partyMusic.mp3" preload="auto"></audio>    */}
+            <audio className="audio-element">
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></source>
+            </audio>
+
+
+        <div id="calcBack" className="calcBackground"></div>
+        <br/>
         <h2 className="centeredText">Server Side Party Calculator</h2>
         <div className="calcDiv">
             <br/>
             <div className="calcScreen">
-
-                <input className="centeredText, calcText" defaultValue={this.state.equation}></input>
-            
+                <div className="hidyDiv">
+                    {this.state.equation.length > 0 ?
+                        <input id="calcInput" className="centeredText, calcText" defaultValue={this.state.equation}></input>
+                        :
+                        <input id="calcInput" className="centeredText, calcText" defaultValue={this.state.recentEquation}></input>
+                    }
+                </div>
             </div>
 
             <br/>
@@ -109,7 +194,7 @@ class Calculator extends Component {
                             <button className="calcBtn" value="." onClick={(value)=>this.handlechange(value)}> . </button>
                         </td>
                         <td>
-                        <button className="equalsbtn" className="calcBtn" value="=" onClick={this.sendEquation}> = </button>
+                        <button className="equalsbtn" className="calcBtn, equalsbtn" value="=" onClick={this.sendEquation}> = </button>
                         </td>
                         <td>
                         <button className="calcBtn" value="/" onClick={(value)=>this.handlechange(value)}> ÷ </button>
@@ -132,7 +217,7 @@ class Calculator extends Component {
                         </td>
 
                         <td>
-                            <button className="party">Party Mode</button>
+                            <button className="party" onClick={this.partyMode}>Party Mode</button>
                         </td>
                     </tr>
                 </tbody>

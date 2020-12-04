@@ -6,9 +6,18 @@ const stringMath = require('string-math');
 /**
  * GET route template
  */
-router.get('/', (req, res) => {
-  // GET route code here
-});
+router.get('/',  (req, res) => {
+    //console.log('req.user', req.user);
+    console.log('in GET equations');
+    const query = `SELECT * FROM "equations" ORDER BY "id" DESC;`;
+    pool.query(query)
+    .then(results => {
+        res.send(results.rows);
+    })
+    .catch((err) => {
+        console.log('err:', err);
+        res.sendStatus(500);
+    })});
 
 /**
  * POST route template
