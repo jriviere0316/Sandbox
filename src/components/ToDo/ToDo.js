@@ -11,7 +11,7 @@ import './ToDo.css';
 function ToDo(props) {
   // Using hooks we're creating local state for a "heading" variable with
   // a default value of 'Functional Component'
-    const [heading, setHeading] = useState('MUI Functional ToDo List');
+    const [heading, setHeading] = useState('MUI ToDo List');
     // const [tasks, setTasks] = useState('this.props.store.tasks')
     const dispatch = useDispatch();   
 

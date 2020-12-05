@@ -42,6 +42,11 @@ const Nav = (props) => {
           About
         </Link>
 
+        <Link className="nav-link" to="/lifetotal">
+          Life Total
+        </Link>
+
+
           
         <Link className="nav-link" to="/todo">
           ToDo

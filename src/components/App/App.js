@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import ToDo from '../ToDo/ToDo';
 import Calculator from '../Calculator/Calculator';
+import LifeTotal from '../LifeTotal/LifeTotal';
 import './App.css';
 
 class App extends Component {
@@ -56,6 +57,12 @@ class App extends Component {
              path="/calculator"
              component={Calculator}
            />
+           <Route
+            // shows AboutPage at all times (logged in or not)
+            exact
+            path="/lifetotal"
+            component={LifeTotal}
+          />
             {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
