@@ -184,11 +184,11 @@ function ToDo(props) {
 
                         {task.isComplete === true ?
                         <td >
-                            <TextField style ={{width: 400}} onChange={(event)=>handleChange(event, task)} className="completedTask" key={task.id} label={task.taskName} variant="outlined" />
+                            <TextField style ={{width: 400, }} onChange={(event)=>handleChange(event, task)} className="completedTask" key={task.id} label={task.taskName} variant="outlined" />
                         </td>
                         :
                         <td >
-                            <TextField style ={{width: 400}} onChange={(event)=>handleChange(event, task)} key={task.id} label={task.taskName} variant="outlined" />
+                            <TextField style ={{width: 400, background: 'white', borderRadius: '5px'}} onChange={(event)=>handleChange(event, task)} key={task.id} label={task.taskName} variant="outlined" />
                         </td>
                         }
 
