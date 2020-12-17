@@ -52,7 +52,7 @@ const useStyles = makeStyles({
 });
 
 function LifeTotal(props) {
-    const [heading, setHeading] = useState('MUI Life Total');
+    const [heading, setHeading] = useState('Mobile MUI Life Total');
     const classes = useStyles();
 
     const [totalPlayers, setTotalPlayers] = useState(4);

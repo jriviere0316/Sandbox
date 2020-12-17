@@ -9,7 +9,7 @@ require("dotenv").config();
 router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('req.user', req.user);
     console.log('in GET tasks');
-    const query = `SELECT * FROM "tasks" ORDER BY "id" DESC;`;
+    const query = `SELECT * FROM "tasks" WHERE "userid" = ${req.user.id} ORDER BY "id" DESC;`;
     pool.query(query)
     .then(results => {
         res.send(results.rows);
@@ -27,11 +27,12 @@ router.post('/', rejectUnauthenticated, (req, res, next) => {
     const isComplete = false
     const queryText = `INSERT INTO "tasks"
     ("taskName",
+    "userid",
     "isComplete")
-    VALUES ($1,$2)
+    VALUES ($1,$2,$3)
     RETURNING "id";`
     pool
-    .query(queryText, [taskName, isComplete ])
+    .query(queryText, [taskName, req.user.id, isComplete ])
     .then(() => res.sendStatus(201))
     .catch((err) => {
       console.log('err:', err);
